@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+<link rel="stylesheet" type="text/css" href="style.css">
+<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css">
+
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.8.3/angular.min.js"></script>
+</head>
+<body>
+    <div class="main" ng-app="myShoppingList" ng-controller="myCtrl">
+        <h1>Lista Della Spesa</h1>
+        <div class="search">
+            <input type="text" placeholder="Aggiungi alla lista della spesa" ng-model="addMe">
+            <span ng-click="addItem()"><i class="fas fa-plus"></i></span>
+        </div>
+        <ul>
+            <li ng-repeat="x in products">{{x}}<i ng-click="removeItem($index)" class="fas fa-trash-alt"></i>
+            </li>
+        </ul>
+        <p>{{errortext}}</p>
+    </div>
+
+
+    <script type="text/javascript">
+
+        var app = angular.module("myShoppingList", []);
+        app.controller("myCtrl", function($scope){
+            $scope.products = ["Latte","Pane","Uova"];
+            $scope.addItem = function(){
+                $scope.errortext = "";
+                if (!$scope.addMe) {return;}
+                if ($scope.products.indexOf($scope.addMe) == -1) {
+                    $scope.products.push($scope.addMe);
+                }
+                else{
+                    $scope.errortext = "Questo oggetto è già nella tua lista della spesa.";
+                }
+            }
+            $scope.removeItem = function(x){
+                $scope.products.splice(x,1);
+            }
+        });
+    </script>
+</body>
+</html>
